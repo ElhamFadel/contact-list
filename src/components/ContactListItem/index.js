@@ -1,21 +1,20 @@
-import {StyleSheet, Text, TouchableHighlight, Image, View} from 'react-native';
+import {Text, TouchableHighlight, Image, View} from 'react-native';
 import colors from '../../theme/colors';
 import styles from './style';
 import React from 'react';
-import useContacts from '../../hooks/useContacts';
 
-const ContactListItem = ({onPress}) => {
-  const [data] = useContacts();
+const ContactListItem = ({name, id, avatar, phone, onPress}) => {
   return (
     <TouchableHighlight
+      id={id}
       underlayColor={colors.grey}
       onPress={onPress}
       style={styles.container}>
       <View style={styles.containerContent}>
-        <Image source={require('../../assets/img.jpg')} style={styles.avatar} />
+        <Image source={{uri: `${avatar}`}} style={styles.avatar} />
         <View style={{marginLeft: 20}}>
-          <Text style={styles.title}>Elham Fadel</Text>
-          <Text style={styles.subTitle}>(790) 597853623</Text>
+          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.subTitle}>{phone}</Text>
         </View>
       </View>
     </TouchableHighlight>

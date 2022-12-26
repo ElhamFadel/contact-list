@@ -1,4 +1,5 @@
-import uuidv4 from 'uuid/v4';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 

@@ -1,9 +1,10 @@
 import {useEffect, useReducer} from 'react';
 import {fetchContacts} from '../api/getters';
+import {filterImportData} from '../utils';
 
 const intialState = {
   contacts: [],
-  isLoading: false,
+  isLoading: true,
   error: false,
 };
 
@@ -12,33 +13,40 @@ function reducer(state = intialState, action) {
     case 'LOADING':
       return {
         ...state,
-        isLoading: true,
+        isLoading: action.payload,
       };
     case 'FINISH':
       return {
-        ...state,
         isLoading: false,
+        contacts: action.payload,
       };
     case 'ERORR':
-      return {};
+      return {
+        isLoading: false,
+        error: action.message,
+      };
     default:
       return state;
   }
 }
-export const handleFetchData = async () => {
-  const contacts = await fetchContacts({results: 100, seed: 'fullstackio'});
-  return contacts;
-};
+
+// return contacts;
 const useContacts = () => {
-  const [data, dispatch] = useReducer(intialState);
+  const [data, dispatch] = useReducer(reducer, intialState);
 
   useEffect(() => {
-    dispatch({type: 'LOADING'});
     try {
-      const contacts = handleFetchData();
-      console.log(contacts);
+      fetchContacts()
+        .then(({results}) =>
+          dispatch({
+            type: 'FINISH',
+            payload: results.map(person => filterImportData(person)),
+          }),
+        )
+        .catch(error => dispatch({type: 'ERORR', message: error}))
+        .finally(() => dispatch({type: 'LOADING', payload: true}));
     } catch (err) {
-      console.log(err);
+      console.error(err, 'erooooo');
     }
   }, []);
   return [data];

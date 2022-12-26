@@ -8,10 +8,11 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {ContactListItem} from './src/components';
+import ProfileScreen from './src/screens/ProfileScreen';
+import AppNavigator from './src/routes';
 
 const App = () => {
-  return <ContactListItem />;
+  return <AppNavigator />;
 };
 
 export default App;
