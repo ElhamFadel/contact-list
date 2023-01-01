@@ -1,12 +1,21 @@
-import {StackNavigator} from 'react-navigation';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  ContactsScreen,
+  FavoritesScreen,
+  ProfileScreen,
+  UserScreen,
+} from './routes';
+const BottomTab = createBottomTabNavigator();
 
-import {ContactsScreen, ProfileScreen} from './screens';
-
-export default StackNavigator({
-  Contacts: {
-    screen: ContactsScreen,
-  },
-  Profile: {
-    screen: ProfileScreen,
-  },
-});
+const BottomTabNavigator = () => (
+  <BottomTab.Navigator initialRouteName="Contact-list">
+    <BottomTab.Screen
+      name="Contact-list"
+      component={ContactsScreen}
+      options={({navigation}) => ({
+        headerShown: false,
+        tabBarIcon: () => <HomeTabBar color={color} />,
+      })}
+    />
+  </BottomTab.Navigator>
+);
